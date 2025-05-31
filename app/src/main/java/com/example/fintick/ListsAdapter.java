@@ -1,5 +1,6 @@
 package com.example.fintick;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,41 +11,43 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
-public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ListViewHolder> {
 
-    private List<String> itemList;
+public class ListsAdapter extends RecyclerView.Adapter<ListsAdapter.ViewHolder> {
 
-    // Constructor to receive data
-    public ListsAdapter(List<String> itemList) {
-        this.itemList = itemList;
+    private List<ListItem> items;
+
+    public ListsAdapter(List<ListItem> items) {
+        this.items = items;
     }
 
-    // ViewHolder class
-    public static class ListViewHolder extends RecyclerView.ViewHolder {
-        TextView itemTitle;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        TextView title, date;
 
-        public ListViewHolder(View view) {
-            super(view);
-            itemTitle = view.findViewById(R.id.item_title);
+        public ViewHolder(View itemView) {
+            super(itemView);
+            title = itemView.findViewById(R.id.item_title);
+            date = itemView.findViewById(R.id.item_date);
         }
     }
 
     @NonNull
     @Override
-    public ListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View itemView = LayoutInflater.from(parent.getContext())
+    public ListsAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.item_list, parent, false);
-        return new ListViewHolder(itemView);
+        return new ViewHolder(view);
     }
 
+    @SuppressLint("SetTextI18n")
     @Override
-    public void onBindViewHolder(@NonNull ListViewHolder holder, int position) {
-        String title = itemList.get(position);
-        holder.itemTitle.setText(title);
+    public void onBindViewHolder(ListsAdapter.ViewHolder holder, int position) {
+        ListItem item = items.get(position);
+        holder.title.setText(item.getTitle());
+        holder.date.setText("Created on: " + item.getDate());
     }
 
     @Override
     public int getItemCount() {
-        return itemList.size();
+        return items.size();
     }
 }

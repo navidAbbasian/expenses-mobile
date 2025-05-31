@@ -16,11 +16,12 @@ import java.util.List;
 import androidx.appcompat.app.AppCompatActivity;
 
 
+
 public class ListsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ListsAdapter adapter;
-    private List<String> sampleData;
+    private List<ListItem> sampleData;
 
     public ListsFragment() {
         // Required empty public constructor
@@ -46,10 +47,13 @@ public class ListsFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
         // Sample data to display
-        sampleData = new ArrayList<>();
-        sampleData.add("Grocery List");
-        sampleData.add("Workout Plan");
-        sampleData.add("Reading List");
+
+        sampleData = new ArrayList<>(); // ✅ مقداردهی
+        sampleData.add(new ListItem("Grocery List", "2025-05-30"));
+        sampleData.add(new ListItem("Workout Plan", "2025-05-28"));
+        sampleData.add(new ListItem("Reading List", "2025-05-25"));
+
+
 
         // Set adapter
         adapter = new ListsAdapter(sampleData);
