@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.room.Room;
 
 import com.example.fintick.R;
 import com.example.fintick.AppDatabase;
@@ -24,6 +25,8 @@ public class TasksFragment extends Fragment {
     private RecyclerView recyclerView;
     private TasksAdapter adapter;
     private List<TaskItem> taskItem;
+    private EditText editText;
+    private Button button;
 
     public TasksFragment(int listId, AppDatabase db) {
         this.listId = listId;
@@ -40,9 +43,14 @@ public class TasksFragment extends Fragment {
         EditText editText = view.findViewById(R.id.editTaskText);
         Button button = view.findViewById(R.id.btnAddTask);
 
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        if (getArguments() != null) {
+            listId = getArguments().getInt("list_id", -1);
+        }
 
+        db = Room.databaseBuilder(requireContext(), AppDatabase.class, "fintick-db").allowMainThreadQueries().build();
         adapter = new TasksAdapter(taskItem);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setAdapter(adapter);
 
         loadTasks();
@@ -51,6 +59,9 @@ public class TasksFragment extends Fragment {
             String taskText = editText.getText().toString().trim();
             if (!taskText.isEmpty()) {
                 ListTask task = new ListTask(listId, taskText, false);
+                task.setTitle(taskText);
+                task.setListId(listId);
+
                 db.listTaskDao().insertTask(task);
                 editText.setText("");
                 loadTasks();

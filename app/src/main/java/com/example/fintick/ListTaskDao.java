@@ -28,6 +28,6 @@ public interface ListTaskDao {
     @Query("DELETE FROM list_tasks WHERE list_id = :listId")
     void deleteTasksByListId(int listId);
     @Query("SELECT * FROM list_tasks WHERE list_id = :listId")
-    List<ListTask> getTasksByListId(long listId);
+    List<ListTask> getTasksByListId(int listId);
 
 }

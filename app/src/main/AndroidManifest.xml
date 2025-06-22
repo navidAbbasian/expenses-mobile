@@ -16,7 +16,8 @@
         <!-- This is your MainActivity -->
         <activity
             android:name=".MainActivity"
-            android:exported="true"> <!-- Important for launcher activity -->
+            android:exported="true"
+            > <!-- Important for launcher activity -->
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -24,6 +25,9 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name=".TasksActivity"
+            android:exported="false" />
     </application>
 
 
